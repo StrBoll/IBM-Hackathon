@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import HomePage from './pages/HomePage';
 import Dashboard from './pages/Dashboard';
+import HospitalMap from './components/HospitalMap';
 
 const App = () => {
   return (
@@ -13,6 +14,10 @@ const App = () => {
             <Route
               path="/"
               element={<HomePage />}
+            />
+            <Route
+              path="/map"
+              element={<HospitalMap />}
             />
             <Route
               path="/dashboard"

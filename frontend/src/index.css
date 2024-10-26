@@ -1,3 +1,10 @@
+@import url('leaflet/dist/leaflet.css');
+.leaflet-container {
+  height: 100%;
+  width: 100%;
+}
+
+/* Tailwind CSS */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

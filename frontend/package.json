@@ -15,9 +15,14 @@
     "@fontsource/inter": "^5.1.0",
     "@mui/icons-material": "^6.1.5",
     "@mui/joy": "5.0.0-beta.48",
+<<<<<<< HEAD
     "@mui/x-charts": "^7.22.0",
+=======
+    "leaflet": "^1.9.4",
+>>>>>>> 4a295168c90f56014ebae12ce8eabe06332e9b23
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-leaflet": "^4.2.1",
     "react-router-dom": "^6.27.0"
   },
   "devDependencies": {
