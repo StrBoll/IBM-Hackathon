@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { Box, Typography, Button, Card, CardContent, Grid, Sheet, Divider } from "@mui/joy";
-import { Storm as StormIcon } from '@mui/icons-material';
+import { Storm, AutoGraph, Map } from '@mui/icons-material';
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -12,17 +12,19 @@ const HomePage = () => {
 
   const features = [
     {
-      icon: <StormIcon sx={{ fontSize: 40 }} />,
+      icon: <Storm sx={{ fontSize: 40 }} />,
       title: 'Real-Time Hurricane Tracking',
       description:
         'Monitor current hurricanes with live updates on their paths and intensities.',
     },
     {
+      icon: <AutoGraph sx={{ fontSize: 40 }} />,
       title: 'Hospital Load Predictions',
       description:
         'Forecast hospital utilization to assist in resource planning and allocation.',
     },
     {
+      icon: <Map sx={{ fontSize: 40 }} />,
       title: 'Interactive Map Visualization',
       description:
         'Explore affected areas with detailed maps and interactive data overlays.',
