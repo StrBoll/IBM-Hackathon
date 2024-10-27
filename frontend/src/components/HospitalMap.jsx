@@ -31,8 +31,8 @@ function HospitalIcons({hospitalNearestPoints}) {
       const popupContent = (
         `<div>
           <h2>${data.name}</h2>
-          <p>Address: ${data.address}</p>
-          <p>Distance to closest point: ${!!hospitalNearestPoints[index] ? hospitalNearestPoints[index].distance.toFixed(2) : 'N/A'} miles</p>
+          <p>Address: ${data.address}</p> 
+          <p>Impact: ${!!hospitalNearestPoints[index] ? hospitalNearestPoints[index].impact : 'N/A'}</p>
           <p>Category: ${!!hospitalNearestPoints[index] ? hospitalNearestPoints[index].point.category : 'N/A'}</p>
         </div>`
       )
@@ -62,6 +62,16 @@ function HospitalMap() {
   const [hospitalNearestPoints, setHospitalNearestPoints] = useState([])
 
   const hurricaneID = 'al142024' // Milton
+
+  const determineImpact = (distance) => {
+    if (distance > 300) {
+      return 'Remote'
+    } else if (distance > 200) {
+      return 'Near'
+    } else {
+      return 'Direct'
+    }
+  }
 
   useEffect(() => {
     axios.get(`http://localhost:8000/api/hurricane/${hurricaneID}?type=pts`)
@@ -131,6 +141,7 @@ function HospitalMap() {
         hospitalIndex: i,
         point: pointsList[closestPoint[1]],
         distance: closestPoint[0],
+        impact: determineImpact(closestPoint[0])
       });
     }
     setHospitalNearestPoints(tempArray);
@@ -154,7 +165,7 @@ function HospitalMap() {
       {
         <HospitalIcons hospitalNearestPoints={hospitalNearestPoints}/>
       }
-      {pointsGEO && <GeoJSON data={pointsGEO} key={JSON.stringify(pointsGEO)} interactive={false}/>}
+      {/* {pointsGEO && <GeoJSON data={pointsGEO} key={JSON.stringify(pointsGEO)} interactive={false}/>} */}
       {projectionGEO && <GeoJSON data={projectionGEO} key={JSON.stringify(projectionGEO)} interactive={false}/>}
       {lineGEO && <GeoJSON data={lineGEO} key={JSON.stringify(lineGEO)} interactive={false}/>}
     </MapContainer> }
