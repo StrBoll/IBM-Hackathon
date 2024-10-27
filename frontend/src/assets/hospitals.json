@@ -1,0 +1,586 @@
+[
+    {
+        "name": "Shands Jacksonville Medical Center",
+        "latitude": 30.3484582,
+        "longitude": -81.66491490988216,
+        "hospital_bed_count": "695",
+        "county": "Duval County",
+        "address": "655 West 8th Street, Jacksonville, FL 32209"
+    },
+    {
+        "name": "Bethesda Hospital",
+        "latitude": 26.503501800389056,
+        "longitude": -80.06916021359802,
+        "hospital_bed_count": "481",
+        "county": "Palm Beach County",
+        "address": "2815 S Seacrest Blvd, Boynton Beach, FL 33435"
+    },
+    {
+        "name": "Adventhealth Orlando",
+        "latitude": 28.5731484,
+        "longitude": -81.3645214,
+        "hospital_bed_count": "3060",
+        "county": "Orange County",
+        "address": "601 E Rollins St, Orlando, FL 32803"
+    },
+    {
+        "name": "Baptist Hospital",
+        "latitude": 25.685134249999997,
+        "longitude": -80.33860899846528,
+        "hospital_bed_count": "948",
+        "county": "Miami-Dade County",
+        "address": "8900 North Kendall Drive, Miami, FL 33176"
+    },
+    {
+        "name": "University Of Miami Hospital",
+        "latitude": 25.78841925,
+        "longitude": -80.21634329983834,
+        "hospital_bed_count": "560",
+        "county": "Miami-Dade County",
+        "address": "1400 Nw 12th Avenue, Miami, FL 33136"
+    },
+    {
+        "name": "Adventhealth New Smyrna Beach",
+        "latitude": 29.0205548,
+        "longitude": -80.92197859360465,
+        "hospital_bed_count": "109",
+        "county": "Volusia County",
+        "address": "401 Palmetto Street, New Smyrna Beach, FL 32168"
+    },
+    {
+        "name": "Naples Community Hospital",
+        "latitude": 26.1513008,
+        "longitude": -81.7981093,
+        "hospital_bed_count": "713",
+        "county": "Collier County",
+        "address": "350 7th Street North, Naples, FL 34102"
+    },
+    {
+        "name": "Ascension Sacred Heart Pensacola",
+        "latitude": 30.4777724,
+        "longitude": -87.21136549065025,
+        "hospital_bed_count": "547",
+        "county": "Escambia County",
+        "address": "5151 North 9th Avenue, Pensacola, FL 32504"
+    },
+    {
+        "name": "Ascension Sacred Heart Bay",
+        "latitude": 30.1596693,
+        "longitude": -85.64938950689903,
+        "hospital_bed_count": "323",
+        "county": "Bay County",
+        "address": "615 North Bonita Avenue, Panama City, FL 32401"
+    },
+    {
+        "name": "Orlando Health-Health Central Hospit",
+        "latitude": 28.5493465,
+        "longitude": -81.52549925417982,
+        "hospital_bed_count": "216",
+        "county": "Orange County",
+        "address": "10000 W Colonial Drive, Ocoee, FL 34761"
+    },
+    {
+        "name": "Mount Sinai Medical Center Of Florid",
+        "latitude": 25.813270850000002,
+        "longitude": -80.14030824258242,
+        "hospital_bed_count": "672",
+        "county": "Miami-Dade County",
+        "address": "4300 Alton Road, Miami Beach, FL 33140"
+    },
+    {
+        "name": "Ascension St Vincents Riverside",
+        "latitude": 30.307424400000002,
+        "longitude": -81.68996279928885,
+        "hospital_bed_count": "528",
+        "county": "Duval County",
+        "address": "1 Shircliff Way, Jacksonville, FL 32204"
+    },
+    {
+        "name": "Mease Hospital And Clinic",
+        "latitude": 28.014076,
+        "longitude": -82.783613,
+        "hospital_bed_count": "507",
+        "county": "Pinellas County",
+        "address": "601 Main St, Dunedin, FL 34698"
+    },
+    {
+        "name": "Adventhealth Deland",
+        "latitude": 29.044208349999998,
+        "longitude": -81.31761684532522,
+        "hospital_bed_count": "164",
+        "county": "Volusia County",
+        "address": "701 West Plymouth Avenue, Deland, FL 32720"
+    },
+    {
+        "name": "Adventhealth Zephyrhills",
+        "latitude": 28.260334,
+        "longitude": -82.1856816,
+        "hospital_bed_count": "139",
+        "county": "Pasco County",
+        "address": "7050 Gall Boulevard, Zephyrhills, FL 33541"
+    },
+    {
+        "name": "Jay Hospital",
+        "latitude": 30.9498177,
+        "longitude": -87.15083047731461,
+        "hospital_bed_count": "55",
+        "county": "Santa Rosa County",
+        "address": "14114 Alabama St, Jay, FL 32565"
+    },
+    {
+        "name": "Orlando Health South Lake Hospital",
+        "latitude": 28.55246205,
+        "longitude": -81.72014000684489,
+        "hospital_bed_count": "122",
+        "county": "Lake County",
+        "address": "1900 Don Wickham Drive, Clermont, FL 34711"
+    },
+    {
+        "name": "Winter Haven Hospital",
+        "latitude": 28.0287621,
+        "longitude": -81.72563127146056,
+        "hospital_bed_count": "508",
+        "county": "Polk County",
+        "address": "200 Ave F  Ne, Winter Haven, FL 33881"
+    },
+    {
+        "name": "Adventhealth - North Pinellas",
+        "latitude": 28.132476949999997,
+        "longitude": -82.75749082856348,
+        "hospital_bed_count": "168",
+        "county": "Pinellas County",
+        "address": "1395 S Pinellas Avenue, Tarpon Springs, FL 34689"
+    },
+    {
+        "name": "Adventhealth Waterman",
+        "latitude": 28.823698,
+        "longitude": -81.7108584,
+        "hospital_bed_count": "269",
+        "county": "Lake County",
+        "address": "1000 Waterman Way, Tavares, FL 32778"
+    },
+    {
+        "name": "Mercy Hospital Inc",
+        "latitude": 25.7411276,
+        "longitude": -80.2142781767664,
+        "hospital_bed_count": "473",
+        "county": "Miami-Dade County",
+        "address": "3663 S Miami Ave, Miami, FL 33133"
+    },
+    {
+        "name": "Adventhealth Ocala",
+        "latitude": 29.1754201,
+        "longitude": -82.138702975,
+        "hospital_bed_count": "385",
+        "county": "Marion County",
+        "address": "1500 Sw 1st Ave, Ocala, FL 34474"
+    },
+    {
+        "name": "Morton Plant North Bay Hospital",
+        "latitude": 28.2546984,
+        "longitude": -82.71422498680609,
+        "hospital_bed_count": "222",
+        "county": "Pasco County",
+        "address": "6600 Madison Street, New Port Richey, FL 34652"
+    },
+    {
+        "name": "St Anthonys Hospital",
+        "latitude": 27.7780068,
+        "longitude": -82.65020472756231,
+        "hospital_bed_count": "395",
+        "county": "Pinellas County",
+        "address": "1200 7th Avenue North, St Petersburg, FL 33705"
+    },
+    {
+        "name": "Adventhealth Daytona Beach",
+        "latitude": 29.242585599999998,
+        "longitude": -81.10780386110477,
+        "hospital_bed_count": "362",
+        "county": "Volusia County",
+        "address": "301 Memorial Medical Parkway, Daytona, FL 32117"
+    },
+    {
+        "name": "Adventhealth Carrollwood",
+        "latitude": 28.01221485,
+        "longitude": -82.50384453695855,
+        "hospital_bed_count": "103",
+        "county": "Hillsborough County",
+        "address": "7171 North Dale Mabry Highway, Tampa, FL 33614"
+    },
+    {
+        "name": "Holy Cross Hospital",
+        "latitude": 26.1933924,
+        "longitude": -80.1131195,
+        "hospital_bed_count": "557",
+        "county": "Broward County",
+        "address": "4725 North Federal Highway, Fort Lauderdale, FL 33308"
+    },
+    {
+        "name": "St Josephs Hospital",
+        "latitude": 27.98275015,
+        "longitude": -82.4914636630387,
+        "hospital_bed_count": "1364",
+        "county": "Hillsborough County",
+        "address": "3001 W Martin Luther King Jr Blvd, Tampa, FL 33607"
+    },
+    {
+        "name": "University Of Miami Hosp & Clinics",
+        "latitude": 25.78853315,
+        "longitude": -80.21400646918684,
+        "hospital_bed_count": "700",
+        "county": "Miami-Dade County",
+        "address": "1475 Nw 12th Avenue, Miami, FL 33136"
+    },
+    {
+        "name": "Leesburg Regional Medical Center Inc",
+        "latitude": 28.80750065,
+        "longitude": -81.86826654648686,
+        "hospital_bed_count": "330",
+        "county": "Lake County",
+        "address": "600 E Dixie Avenue, Leesburg, FL 34748"
+    },
+    {
+        "name": "Baptist Medical Center",
+        "latitude": 30.315937750000003,
+        "longitude": -81.66325825709765,
+        "hospital_bed_count": "972",
+        "county": "Duval County",
+        "address": "800 Prudential Drive, Jacksonville, FL 32207"
+    },
+    {
+        "name": "Baptist Hospital",
+        "latitude": 30.4296463,
+        "longitude": -87.23192565653656,
+        "hospital_bed_count": "646",
+        "county": "Escambia County",
+        "address": "1000 West Moreno Street, Pensacola, FL 32501"
+    },
+    {
+        "name": "Adventhealth Lake Wales",
+        "latitude": 27.8956996,
+        "longitude": -81.56539790464527,
+        "hospital_bed_count": "160",
+        "county": "Polk County",
+        "address": "410 South 11th Street, Lake Wales, FL 33853"
+    },
+    {
+        "name": "Indian River Memorial Hospital",
+        "latitude": 27.6586427,
+        "longitude": -80.3925512,
+        "hospital_bed_count": "332",
+        "county": "Indian River County",
+        "address": "1000 36th Street, Vero Beach, FL 32960"
+    },
+    {
+        "name": "Doctors Memorial",
+        "latitude": 30.115107745223185,
+        "longitude": -83.58936441523043,
+        "hospital_bed_count": "48",
+        "county": "Taylor County",
+        "address": "333 Byron Butler Parkway, Perry, FL 32347"
+    },
+    {
+        "name": "Uf Health Shands",
+        "latitude": 29.6390372,
+        "longitude": -82.3450961,
+        "hospital_bed_count": "1095",
+        "county": "Alachua County",
+        "address": "1600 Archer Rd, Gainesville, FL 32610"
+    },
+    {
+        "name": "Adventhealth Palm Coast",
+        "latitude": 29.4794438,
+        "longitude": -81.1878651,
+        "hospital_bed_count": "99",
+        "county": "Flagler County",
+        "address": "60 Memorial Medical Parkway, Palm Coast, FL 32614"
+    },
+    {
+        "name": "Bartow Regional Medical Center",
+        "latitude": 27.918843799999998,
+        "longitude": -81.84424911381562,
+        "hospital_bed_count": "72",
+        "county": "Polk County",
+        "address": "2200 Osprey Blvd, Bartow, FL 33831"
+    },
+    {
+        "name": "Homestead Hospital",
+        "latitude": 25.4795752,
+        "longitude": -80.4301822,
+        "hospital_bed_count": "147",
+        "county": "Miami-Dade County",
+        "address": "975 Baptist Way, Homestead, FL 33033"
+    },
+    {
+        "name": "Morton Plant Hospital",
+        "latitude": 27.952054,
+        "longitude": -82.80158397341086,
+        "hospital_bed_count": "687",
+        "county": "Pinellas County",
+        "address": "300 Pinellas St, Clearwater, FL 33756"
+    },
+    {
+        "name": "Tampa General Hospital",
+        "latitude": 27.9366363,
+        "longitude": -82.45937,
+        "hospital_bed_count": "1041",
+        "county": "Hillsborough County",
+        "address": "1 Tampa General Circle, Tampa, FL 33606"
+    },
+    {
+        "name": "Ed Fraser Memorial Hospital",
+        "latitude": 30.2857586,
+        "longitude": -82.11888590133526,
+        "hospital_bed_count": "25",
+        "county": "Baker County",
+        "address": "159 North 3rd Street, Macclenny, FL 32063"
+    },
+    {
+        "name": "Tallahassee Memorial Hospital",
+        "latitude": 30.4540823,
+        "longitude": -84.2623695,
+        "hospital_bed_count": "772",
+        "county": "Leon County",
+        "address": "Magnolia Drive & Miccosukee Road, Tallahassee, FL 32308"
+    },
+    {
+        "name": "Baptist Medical Ctr-Nassau",
+        "latitude": 30.652309250000002,
+        "longitude": -81.44914241907776,
+        "hospital_bed_count": "62",
+        "county": "Nassau County",
+        "address": "1250 South 18th Street, Fernandina Beach, FL 32034"
+    },
+    {
+        "name": "Mayo Clinic Florida",
+        "latitude": 30.2651818,
+        "longitude": -81.4417145,
+        "hospital_bed_count": "304",
+        "county": "Duval County",
+        "address": "4500 San Pablo Road, Jacksonville, FL 32224"
+    },
+    {
+        "name": "Lakeland Regional Med Ctr",
+        "latitude": 28.060208950000003,
+        "longitude": -81.95527548395702,
+        "hospital_bed_count": "864",
+        "county": "Polk County",
+        "address": "1324 Lakeland Hills Blvd, Lakeland, FL 33805"
+    },
+    {
+        "name": "Winter Park Memorial Hospital",
+        "latitude": 28.5979494,
+        "longitude": -81.3274954,
+        "hospital_bed_count": "339",
+        "county": "Orange County",
+        "address": "200 N Lakemont Ave, Winter Park, FL 32789"
+    },
+    {
+        "name": "Boca Raton Regional Hospital",
+        "latitude": 26.358736399999998,
+        "longitude": -80.10189890615072,
+        "hospital_bed_count": "400",
+        "county": "Palm Beach County",
+        "address": "800 Meadows Road, Boca Raton, FL 33486"
+    },
+    {
+        "name": "Florida Hospital Oceanside",
+        "latitude": 29.286376521008943,
+        "longitude": -81.03746957631267,
+        "hospital_bed_count": "205",
+        "county": "Volusia County",
+        "address": "264 South Atlantic Avenue, Ormond Beach, FL 32176"
+    },
+    {
+        "name": "Adventhealth Tampa",
+        "latitude": 28.0703551,
+        "longitude": -82.4249432,
+        "hospital_bed_count": "626",
+        "county": "Hillsborough County",
+        "address": "3100 E Fletcher Ave, Tampa, FL 33613"
+    },
+    {
+        "name": "Adventhealth Dade City",
+        "latitude": 28.34799385,
+        "longitude": -82.1997464313735,
+        "hospital_bed_count": "120",
+        "county": "Pasco County",
+        "address": "13100 Fort King Road, Dade City, FL 33525"
+    },
+    {
+        "name": "Anne Bates Leach Eye Hospital",
+        "latitude": 25.7909915,
+        "longitude": -80.21087843795466,
+        "hospital_bed_count": "100",
+        "county": "Miami-Dade County",
+        "address": "900 Nw 17th Street, Miami, FL 33136"
+    },
+    {
+        "name": "Jupiter Medical Center",
+        "latitude": 26.9216452,
+        "longitude": -80.0973655,
+        "hospital_bed_count": "248",
+        "county": "Palm Beach County",
+        "address": "1210 South Old Dixie Highway, Jupiter, FL 33458"
+    },
+    {
+        "name": "Gulf Breeze Hospital",
+        "latitude": 30.358800565656566,
+        "longitude": -87.156492010101,
+        "hospital_bed_count": "77",
+        "county": "Santa Rosa County",
+        "address": "1100 Gulf Breeze Parkway, Gulf Breeze, FL 32561"
+    },
+    {
+        "name": "Moffitt Cancer Center",
+        "latitude": 28.0640672,
+        "longitude": -82.42172613048459,
+        "hospital_bed_count": "218",
+        "county": "Hillsborough County",
+        "address": "12902 Magnolia Drive, Tampa, FL 33612"
+    },
+    {
+        "name": "Miami Jewish Health Systems  Inc",
+        "latitude": 25.8237323,
+        "longitude": -80.19296,
+        "hospital_bed_count": "32",
+        "county": "Miami-Dade County",
+        "address": "5200 Ne 2nd Avenue, Miami, FL 33137"
+    },
+    {
+        "name": "Ccf Hospital - Weston",
+        "latitude": 26.0815823,
+        "longitude": -80.3644924,
+        "hospital_bed_count": "206",
+        "county": "Broward County",
+        "address": "3100 Weston Road, Weston, FL 33331"
+    },
+    {
+        "name": "The Villages Regional Hospital",
+        "latitude": 28.9512278,
+        "longitude": -81.9573703,
+        "hospital_bed_count": "307",
+        "county": "Sumter County",
+        "address": "1451 El Camino Real, The Villages, FL 32159"
+    },
+    {
+        "name": "Doctors Hospital",
+        "latitude": 25.72440985,
+        "longitude": -80.27406634904614,
+        "hospital_bed_count": "281",
+        "county": "Miami-Dade County",
+        "address": "5000 University Drive, Coral Gables, FL 33146"
+    },
+    {
+        "name": "St Cloud Regional Medical Center",
+        "latitude": 28.24368745,
+        "longitude": -81.30333255389823,
+        "hospital_bed_count": "84",
+        "county": "Osceola County",
+        "address": "2906 17th Street, St Cloud, FL 34769"
+    },
+    {
+        "name": "Ascension St Vincents Southside Ho",
+        "latitude": 30.2542194,
+        "longitude": -81.58169746509087,
+        "hospital_bed_count": "313",
+        "county": "Duval County",
+        "address": "4201 Belfort Road, Jacksonville, FL 32216"
+    },
+    {
+        "name": "Viera Hospital Inc",
+        "latitude": 28.22765725,
+        "longitude": -80.72904836692024,
+        "hospital_bed_count": "84",
+        "county": "Brevard County",
+        "address": "8745 Wickham Road, Viera, FL 32940"
+    },
+    {
+        "name": "Adventhealth Wesley Chapel",
+        "latitude": 28.1946466,
+        "longitude": -82.35082148859456,
+        "hospital_bed_count": "169",
+        "county": "Pasco County",
+        "address": "2600 Bruce B Downs Blvd, Wesley Chapel, FL 33544"
+    },
+    {
+        "name": "Ascension St Vincents Clay County",
+        "latitude": 30.10970575,
+        "longitude": -81.83242745987866,
+        "hospital_bed_count": "134",
+        "county": "Clay County",
+        "address": "1670 St Vincents Way, Middleburg, FL 32068"
+    },
+    {
+        "name": "Medical Center Of Deltona",
+        "latitude": 28.9575788,
+        "longitude": -81.2548449,
+        "hospital_bed_count": "42",
+        "county": "Volusia County",
+        "address": "3300 Halifax Crossings Boulevard, Deltona, FL 32725"
+    },
+    {
+        "name": "Adventhealth Wauchula",
+        "latitude": 27.5411118,
+        "longitude": -81.8074138,
+        "hospital_bed_count": "25",
+        "county": "Hardee County",
+        "address": "735 S 5th Ave, Wauchula, FL 33873"
+    },
+    {
+        "name": "Calhoun-Liberty Hospital Assn",
+        "latitude": 30.458692550000002,
+        "longitude": -85.05013755,
+        "hospital_bed_count": "25",
+        "county": "Calhoun County",
+        "address": "20370 Burns Avenue, Blountstown, FL 32424"
+    },
+    {
+        "name": "Madison Memorial Hospital",
+        "latitude": 30.471373800000002,
+        "longitude": -83.41910745236333,
+        "hospital_bed_count": "25",
+        "county": "Madison County",
+        "address": "224 Nw Crane Avenue, Madison, FL 32340"
+    },
+    {
+        "name": "Fishermens Hospital",
+        "latitude": 24.710995983276653,
+        "longitude": -81.09500406131893,
+        "hospital_bed_count": "8",
+        "county": "Monroe County",
+        "address": "3301 Overseas Highway, Marathon, FL 33050"
+    },
+    {
+        "name": "Mariners Hospital",
+        "latitude": 25.0061577,
+        "longitude": -80.52213744220364,
+        "hospital_bed_count": "25",
+        "county": "Monroe County",
+        "address": "91500 Overseas Highway, Tavernier, FL 33070"
+    },
+    {
+        "name": "Nicklaus Childrens Hospital",
+        "latitude": 25.7417114,
+        "longitude": -80.29454350466702,
+        "hospital_bed_count": "309",
+        "county": "Miami-Dade County",
+        "address": "3100 Sw 62nd Avenue, Miami, FL 33155"
+    },
+    {
+        "name": "Shriners Hospital For Children Tampa",
+        "latitude": 28.05693525,
+        "longitude": -82.4259405,
+        "hospital_bed_count": "60",
+        "county": "Hillsborough County",
+        "address": "12505 Usf Pine Drive, Tampa, FL 33612"
+    },
+    {
+        "name": "Nemours Childrens Hospital",
+        "latitude": 28.37685605,
+        "longitude": -81.27272472452316,
+        "hospital_bed_count": "95",
+        "county": "Orange County",
+        "address": "13535 Nemours Parkway, Orlando, FL 32827"
+    }
+]
