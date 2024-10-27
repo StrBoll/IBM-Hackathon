@@ -31,7 +31,7 @@ function HospitalIcons({ hospitalNearestPoints, closestHospitalIndex }) {
 
         const distance = hospitalData.distance;
         const lowEstimate = (distance / 60) * 60 + 1; // 60 mph + low end average of 1 minute for cities ambulance dispatch
-        const highEstimate = (distance / 45) * 60; // 45 mph + high end average of 2 minute for cities ambulance dispatch
+        const highEstimate = (distance / 45) * 60 + 2; // 45 mph + high end average of 2 minute for cities ambulance dispatch
 
         return (
           <Marker key={index} position={position} icon={icon}>

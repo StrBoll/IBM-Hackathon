@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Box, Typography, Card, CircularProgress, Grid } from "@mui/joy"
 import { LineChart } from "@mui/x-charts";
 
-
 const Dashboard = () => {
   const [isLoading, setIsLoading] = useState(false);
 
@@ -14,7 +13,7 @@ const Dashboard = () => {
   const [generatedText, setGeneratedText] = useState({});
   const [processedItems, setProcessedItems] = useState([]);
 
-  const population = 500000;
+  const population = 959918;
   const hurricane = 'Milton'
   const counties = ['Alachua', 'Duval', 'Fake1', 'Fake2', 'Pinellas'];
 
@@ -137,52 +136,53 @@ const Dashboard = () => {
         Predicted Hospital Encounters
       </Typography>
 
-      {isLoading ? (
-        <div style={{ textAlign: 'center', padding: '20px' }}>
-          <CircularProgress />
-        </div>
-      ) : (
-        <Grid container direction={"column"} spacing={2}>
-          <Grid item>
-            <Card elevation={3} variant="outlined" sx={{ p: 3, maxWidth: 800, margin: '0 auto' }}>
-              <LineChart
-                dataset={chartDataset}
-                xAxis={[
-                  {
-                    id: 'Weeks',
-                    dataKey: 'week',
-                    valueFormatter: (value) => 'Week ' + value.toString(),
-                    min: 0,
-                    max: 7,
-                  },
-                ]}
-                series={
-                  countyList.map(county => ({
-                    id: county,
-                    label: county,
-                    dataKey: county,
-                    showMark: false,
-                  }))}
-                width={800}
-                height={400}
-                margin={{ left: 70 }}
-              />
-            </Card>
-          </Grid>
-          <Grid item sx={{ mt: 2 }}>
-            <Typography level="h2" sx={{ mb: 2, fontWeight: 'bold', textAlign: 'center' }}>
-              Insight From WatsonAIx
-            </Typography>
-            {processedItems.map((item, index) => (
-              <Typography key={index} component="p" sx={{ textAlign: 'left', mt: index !== 0 ? 2 : 0 }}>
-                {item}
+      {
+        isLoading ? (
+          <div style={{ textAlign: 'center', padding: '20px' }}>
+            <CircularProgress />
+          </div>
+        ) : (
+          <Grid container direction={"column"} spacing={2}>
+            <Grid item>
+              <Card elevation={3} variant="outlined" sx={{ p: 3, maxWidth: 800, margin: '0 auto' }}>
+                <LineChart
+                  dataset={chartDataset}
+                  xAxis={[
+                    {
+                      id: 'Weeks',
+                      dataKey: 'week',
+                      valueFormatter: (value) => 'Week ' + value.toString(),
+                      min: 0,
+                      max: 7,
+                    },
+                  ]}
+                  series={
+                    countyList.map(county => ({
+                      id: county,
+                      label: county,
+                      dataKey: county,
+                      showMark: false,
+                    }))}
+                  width={800}
+                  height={400}
+                  margin={{ left: 70 }}
+                />
+              </Card>
+            </Grid>
+            <Grid item sx={{ mt: 2 }}>
+              <Typography level="h2" sx={{ mb: 2, fontWeight: 'bold', textAlign: 'center' }}>
+                Insight From WatsonAIx
               </Typography>
-            ))}
+              {processedItems.map((item, index) => (
+                <Typography key={index} component="p" sx={{ textAlign: 'left', mt: index !== 0 ? 2 : 0 }}>
+                  {item}
+                </Typography>
+              ))}
+            </Grid>
           </Grid>
-        </Grid>
-      )}
-
-    </Box>
+        )
+      }
+    </Box >
   );
 }
 
