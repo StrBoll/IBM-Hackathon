@@ -1,184 +1,176 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { MapContainer, TileLayer, GeoJSON, Marker, Popup, useMap } from 'react-leaflet';
-import axios from 'axios';
-import L from 'leaflet';
-import hospitals from '../assets/hospitals.json';
-import hospitalPng from '../assets/hospital.png';
-import specialPng from '../assets/special.png'; 
-import userLocationIconPng from '../assets/users.png';
-import { getDistanceFromLatLonInMiles } from '../helper/helper';
+import { useNavigate } from "react-router-dom";
 
-function HospitalIcons({ hospitalNearestPoints, closestHospitalIndex }) {
-  const hospitalIcon = L.icon({
-    iconUrl: hospitalPng,
-    iconSize: [20, 20],
-    iconAnchor: [10, 10],
-    popupAnchor: [0, -20],
-  });
+import { Box, Typography, Button, Card, CardContent, Grid, Sheet, Divider } from "@mui/joy";
+import { Storm, AutoGraph, Map } from '@mui/icons-material';
 
-  const specialIcon = L.icon({
-    iconUrl: specialPng, 
-    iconSize: [25, 25],
-    iconAnchor: [12.5, 12.5],
-    popupAnchor: [0, -25],
-  });
+const HomePage = () => {
+  const navigate = useNavigate();
+
+  const features = [
+    {
+      icon: <Storm sx={{ fontSize: 40 }} />,
+      title: 'Hurricane History',
+      description:
+        'View past hurricanes with their paths and intensities.',
+    },
+    {
+      icon: <AutoGraph sx={{ fontSize: 40 }} />,
+      title: 'Hospital Load Predictions',
+      description:
+        'Forecast hospital utilization to assist in resource planning and allocation.',
+    },
+    {
+      icon: <Map sx={{ fontSize: 40 }} />,
+      title: 'Interactive Map Visualization',
+      description:
+        'Explore affected areas with detailed maps and interactive data overlays.',
+    },
+  ]
 
   return (
-    <>
-      {hospitalNearestPoints.map((hospitalData, index) => {
-        const position = [hospitalData.hospital.latitude, hospitalData.hospital.longitude];
-        const icon = index === closestHospitalIndex ? specialIcon : hospitalIcon;
+    <Box>
+      <Sheet
+        variant="solid"
+        color="primary"
+        invertedColors
+        sx={{
+          p: 4,
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+          textAlign: 'center',
+          height: '70vh',
+          backgroundImage: 'linear-gradient(rgba(0, 30, 60, 0.8), rgba(0, 30, 60, 0.8)), url("/api/placeholder/1200/800")',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+        }}
+      >
+        <Typography
+          level="h1"
+          sx={{
+            mb: 2,
+            fontSize: { xs: '2rem', md: '3rem' },
+            fontWeight: 'bold',
+          }}
+        >
+          Disaster Resource Allocation
+        </Typography>
+        <Typography
+          level="body1"
+          sx={{
+            mb: 4,
+            fontSize: { xs: '1rem', md: '1.8rem' },
+            maxWidth: '800px',
+          }}
+        >
+          Predicting hospital utilization during hurricanes to improve government resource distribution in the most impacted regions
+        </Typography>
+        <Grid container spacing={2}>
+          <Grid item>
+            <Button
+              size="lg"
+              color="success"
+              variant="solid"
+              onClick={() => navigate('/map')}
+              sx={{ mt: 2 }}
+            >
+              Explore the Map
+            </Button>
+          </Grid>
+          <Grid item>
+            <Button
+              size="lg"
+              color="success"
+              variant="solid"
+              onClick={() => navigate('/dashboard')}
+              sx={{ mt: 2 }}
+            >
+              View the Dashboard
+            </Button>
+          </Grid>
+          
+        </Grid>
+      </Sheet>
 
-        const distance = hospitalData.distance;
-        const lowEstimate = (distance / 60) * 60 + 1; // 60 mph + low end average of 1 minute for cities ambulance dispatch
-        const highEstimate = (distance / 45) * 60 + 2; // 45 mph + high end average of 2 minute for cities ambulance dispatch
+      <Box
+        sx={{
+          py: 8,
+          px: 4,
+          backgroundColor: 'background.body',
+        }}
+      >
+        <Typography
+          level="h3"
+          sx={{
+            textAlign: 'center',
+            mb: 6,
+            fontWeight: 'bold',
+            fontFamily: 'Poppins, sans-serif',
+          }}
+        >
+          Key Features
+        </Typography>
+        <Box
+          sx={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            justifyContent: 'center',
+            gap: 6,
+          }}
+        >
+          {features.map((feature, index) => (
+            <Box
+              key={index}
+              sx={{
+                width: { xs: '100%', md: '30%' },
+                textAlign: 'center',
+                px: 2,
+              }}
+            >
+              <Box sx={{ mb: 2 }}>{feature.icon}</Box>
+              <Typography level="h5" sx={{ mb: 2, fontWeight: 'bold' }}>
+                {feature.title}
+              </Typography>
+              <Typography level="body1">{feature.description}</Typography>
+            </Box>
+          ))}
+        </Box>
+      </Box>
 
-        return (
-          <Marker key={index} position={position} icon={icon}>
-            <Popup>
-              <div>
-                <h2>{hospitalData.hospital.name}</h2>
-                <p>Address: {hospitalData.hospital.address}</p>
-                <p>
-                  Distance from your location:{" "}
-                  {hospitalData ? `${hospitalData.distance.toFixed(2)} miles` : "N/A"}
-                </p>
-                <p>
-                  Expected Ambulance Response Time:{" "}
-                  {hospitalData
-                    ? `${lowEstimate.toFixed(2)} to ${highEstimate.toFixed(2)} minutes`
-                    : "N/A"}
-                </p>
-                <p>
-                  Category:{" "}
-                  {hospitalData.point && hospitalData.point.category
-                    ? hospitalData.point.category
-                    : "N/A"}
-                </p>
-              </div>
-            </Popup>
-          </Marker>
-        );
-      })}
-    </>
+      <Box
+        sx={{
+          bgcolor: 'neutral.100',
+          display: 'flex',
+          flexWrap: 'wrap',
+          justifyContent: 'center',
+          py: 6,
+          px: 4,
+          gap: { xs: 4, md: 8 },
+        }}
+      >
+        {[
+          { number: "XX+", label: "People Impacted" },
+          { number: "X,XXX+", label: "Hospitals Helped" },
+          { number: "XX%", label: "Hospital Load" },
+        ].map((stat, index) => (
+          <Box
+            key={index}
+            sx={{
+              textAlign: 'center',
+            }}
+          >
+            <Typography level="h1" color="primary">
+              {stat.number}
+            </Typography>
+            <Typography level="body-lg">
+              {stat.label}
+            </Typography>
+          </Box>
+        ))}
+      </Box>
+    </Box>
   );
 }
 
-function HospitalMap() {
-  const [pointsGEO, setPointsGEO] = useState(null);
-  const [projectionGEO, setProjectionGEO] = useState(null);
-  const [lineGEO, setLineGEO] = useState(null);
-  const [hospitalNearestPoints, setHospitalNearestPoints] = useState([]);
-  const [userPosition, setUserPosition] = useState(null);
-  const [closestHospitalIndex, setClosestHospitalIndex] = useState(null); 
-  const hurricaneID = 'al142024';
-
-  const pointsList = [];
-
-  useEffect(() => {
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        setUserPosition({
-          lat: position.coords.latitude,
-          lng: position.coords.longitude,
-        });
-      },
-      () => {
-        console.error('Error getting user location.');
-      }
-    );
-  }, []);
-
-  // Fetch hurricane data
-  useEffect(() => {
-    axios.get(`http://localhost:8000/api/hurricane/${hurricaneID}?type=pts`)
-      .then((response) => {
-        setPointsGEO(JSON.parse(response.data));
-      })
-      .catch((error) => console.log(error));
-
-    axios.get(`http://localhost:8000/api/hurricane/${hurricaneID}?type=pgn`)
-      .then((response) => {
-        setProjectionGEO(JSON.parse(response.data));
-      })
-      .catch((error) => console.log(error));
-
-    axios.get(`http://localhost:8000/api/hurricane/${hurricaneID}?type=lin`)
-      .then((response) => {
-        setLineGEO(JSON.parse(response.data));
-      })
-      .catch((error) => console.log(error));
-  }, []);
-
-  useEffect(() => {
-    if (!pointsGEO || !userPosition) return;
-
-    for (let i = 0; i < pointsGEO.features.length; i++) {
-      const point = {
-        id: pointsGEO.features[i].id,
-        lat: pointsGEO.features[i].geometry.coordinates[1],
-        lng: pointsGEO.features[i].geometry.coordinates[0],
-        category: pointsGEO.features[i].properties['SSNUM'],
-      };
-      pointsList.push(point);
-    }
-
-    const tempArray = [];
-    let closestDistance = Infinity;
-    let closestIndex = -1;
-
-    hospitals.forEach((hospital, i) => {
-      const hLat = hospital.latitude;
-      const hLng = hospital.longitude;
-
-      const distance = getDistanceFromLatLonInMiles(userPosition.lat, userPosition.lng, hLat, hLng);
-      tempArray.push({
-        hospital,
-        hospitalIndex: i,
-        point: pointsList[i],
-        distance,
-      });
-
-      if (distance < closestDistance) {
-        closestDistance = distance;
-        closestIndex = i;
-      }
-    });
-
-    setHospitalNearestPoints(tempArray);
-    setClosestHospitalIndex(closestIndex); 
-  }, [pointsGEO, userPosition]);
-
-  const userIcon = L.icon({
-    iconUrl: userLocationIconPng, 
-    iconSize: [30, 30],
-    iconAnchor: [15, 15],
-    popupAnchor: [0, -15],
-  });
-
-  return (
-    <MapContainer id="map" style={{ height: '100vh' }} center={[29.651634, -82.324829]} zoom={10}>
-      <TileLayer
-        attribution='&copy; <a href="https://www.stadiamaps.com/" target="_blank">Stadia Maps</a> &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        url="https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.{ext}"
-        minZoom={0}
-        maxZoom={10}
-        ext="png"
-      />
-
-      <HospitalIcons hospitalNearestPoints={hospitalNearestPoints} closestHospitalIndex={closestHospitalIndex} />
-
-      {userPosition && (
-        <Marker position={userPosition} icon={userIcon}>
-          <Popup>Your Location</Popup>
-        </Marker>
-      )}
-
-      {pointsGEO && <GeoJSON data={pointsGEO} key={JSON.stringify(pointsGEO)} interactive={false} />}
-      {projectionGEO && <GeoJSON data={projectionGEO} key={JSON.stringify(projectionGEO)} interactive={false} />}
-      {lineGEO && <GeoJSON data={lineGEO} key={JSON.stringify(lineGEO)} interactive={false} />}
-    </MapContainer>
-  );
-}
-
-export default HospitalMap;
+export default HomePage;
