@@ -83,10 +83,21 @@ const HomePage = () => {
               size="lg"
               color="success"
               variant="solid"
-              onClick={() => navigate('/map')}
+              onClick={() => navigate('/dashboard')}
               sx={{ mt: 2 }}
             >
               View the Dashboard
+            </Button>
+          </Grid>
+          <Grid item>
+            <Button
+              size="lg"
+              color="success"
+              variant="solid"
+              onClick={() => navigate('/SOS')}
+              sx={{ mt: 2 }}
+            >
+              Response Times
             </Button>
           </Grid>
         </Grid>
