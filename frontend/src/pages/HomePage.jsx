@@ -83,7 +83,7 @@ const HomePage = () => {
               size="lg"
               color="success"
               variant="solid"
-              onClick={() => navigate('/map')}
+              onClick={() => navigate('/dashboard')}
               sx={{ mt: 2 }}
             >
               View the Dashboard

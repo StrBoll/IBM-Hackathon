@@ -12,17 +12,7 @@ import { LineChart } from "@mui/x-charts";
  * need pre-hurricane 4-week avg number of encounters
  */
 
-const customize = {
-  height: 300,
-  width: 650,
-  legend: { hidden: true },
-  margin: { top: 5 },
-}
-
 const Dashboard = () => {
-  const [ageGroup, setAgeGroup] = useState('all ages')
-  const [condition, setCondition] = useState('all conditions')
-  const [proximity, setProximity] = useState('direct path')
   const [isLoading, setIsLoading] = useState(false);
 
   const [chartData, setChartData] = useState([]);
@@ -30,7 +20,7 @@ const Dashboard = () => {
   const [chartDataset, setChartDataset] = useState([]);
   const [countyList, setCountyList] = useState([]);
 
-  const population = 500000;
+  const population = 959918;
   const hurricane = 'Milton'
   const counties = ['Alachua', 'Duval', 'Fake1', 'Fake2', 'Pinellas'];
 
@@ -91,43 +81,61 @@ const Dashboard = () => {
 
   return (
     <Box sx={{ p: 4 }}>
-      <Typography level="h2" sx={{ mb: 2, fontWeight: 'bold', textAlign: 'center' }}>
-        Predicted Hospital Encounters
-      </Typography>
-
-      {isLoading ? (
-        <div style={{ textAlign: 'center', padding: '20px' }}>
-          <Typography level="h4">Loading data...</Typography>
-        </div>
-      ) : (
-        <>
-          <Card variant="outlined" sx={{ p: 3, maxWidth: 800, margin: '0 auto' }}>
-            <LineChart
-              dataset={chartDataset}
-              xAxis={[
-                {
-                  id: 'Weeks',
-                  dataKey: 'week',
-                  valueFormatter: (value) => 'Week ' + value.toString(),
-                  min: 0,
-                  max: 7,
-                },
-              ]}
-              series={
-                countyList.map(county => ({
-                  id: county,
-                  label: county,
-                  dataKey: county,
-                  showMark: false,
-                }))}
-              width={800}
-              height={400}
-              margin={{ left: 70 }}
-            />
-          </Card>
-        </>
-      )}
+      <Grid container spacing={60}>
+        <Grid item>
+          <Grid container direction={"column"} spacing={2}>
+            <Grid item>
+              <Typography level="h2" sx={{ mb: 2, fontWeight: 'bold', textAlign: 'center' }}>
+                Predicted Hospital Encounters For Hurricane Milton
+              </Typography>
+            </Grid>
+            <Grid item>
+              <Card variant="outlined" sx={{ p: 3, maxWidth: 800, margin: '0 auto' }}>
+                <LineChart
+                  dataset={chartDataset}
+                  xAxis={[
+                    {
+                      id: 'Weeks',
+                      dataKey: 'week',
+                      valueFormatter: (value) => 'Week ' + value.toString(),
+                      min: 0,
+                      max: 7,
+                    },
+                  ]}
+                  series={
+                    countyList.map(county => ({
+                      id: county,
+                      label: county,
+                      dataKey: county,
+                      showMark: false,
+                    }))}
+                  width={800}
+                  height={400}
+                  margin={{ left: 70 }}
+                />
+              </Card>
+            </Grid>
+          </Grid>
+        </Grid>
+        <Grid item>
+          <Grid container direction={"column"} spacing={2}>
+            <Grid item>
+              <Typography level="h2" sx={{ mb: 2, fontWeight: 'bold', textAlign: 'center' }}>
+                Accuracy
+              </Typography>
+            </Grid>
+            <Grid item>
+              <Card variant="outlined" sx={{ p: 3, maxWidth: 100, margin: '0 auto' }}>
+                Words
+              </Card>
+            </Grid>
+          </Grid>
+        </Grid>
+      </Grid>
     </Box>
+
+    // 6,600 - 6,557.9818072028
+
   );
 }
 
