@@ -4,10 +4,11 @@ import axios from 'axios';
 import L from 'leaflet';
 import hospitals from '../assets/hospitals.json';
 import hospitalPng from '../assets/hospital.png';
-import userLocationIconPng from '../assets/users.png'; // Custom icon for user location
+import specialPng from '../assets/special.png'; 
+import userLocationIconPng from '../assets/users.png';
 import { getDistanceFromLatLonInMiles } from '../helper/helper';
 
-function HospitalIcons({ hospitalNearestPoints }) {
+function HospitalIcons({ hospitalNearestPoints, closestHospitalIndex }) {
   const hospitalIcon = L.icon({
     iconUrl: hospitalPng,
     iconSize: [20, 20],
@@ -15,39 +16,52 @@ function HospitalIcons({ hospitalNearestPoints }) {
     popupAnchor: [0, -20],
   });
 
-  const map = useMap();
-  const markersRef = useRef({});
+  const specialIcon = L.icon({
+    iconUrl: specialPng, 
+    iconSize: [25, 25],
+    iconAnchor: [12.5, 12.5],
+    popupAnchor: [0, -25],
+  });
 
-  useEffect(() => {
-    hospitals.forEach((data, index) => {
-      const position = L.latLng(data.latitude, data.longitude);
-      const popupContent = `
-        <div>
-          <h2>${data.name}</h2>
-          <p>Address: ${data.address}</p>
-          <p>Distance to closest point: ${
-            !!hospitalNearestPoints[index]
-              ? hospitalNearestPoints[index].distance.toFixed(2)
-              : 'N/A'
-          } miles</p>
-          <p>Category: ${
-            !!hospitalNearestPoints[index]
-              ? hospitalNearestPoints[index].point.category
-              : 'N/A'
-          }</p>
-        </div>
-      `;
+  return (
+    <>
+      {hospitalNearestPoints.map((hospitalData, index) => {
+        const position = [hospitalData.hospital.latitude, hospitalData.hospital.longitude];
+        const icon = index === closestHospitalIndex ? specialIcon : hospitalIcon;
 
-      if (markersRef.current[index]) {
-        markersRef.current[index].setLatLng(position).setPopupContent(popupContent);
-      } else {
-        const newMarker = L.marker(position).addTo(map).bindPopup(popupContent).setIcon(hospitalIcon);
-        markersRef.current[index] = newMarker;
-      }
-    });
-  }, [hospitalNearestPoints, map]);
+        const distance = hospitalData.distance;
+        const lowEstimate = (distance / 60) * 60 + 1; // 60 mph + low end average of 1 minute for cities ambulance dispatch
+        const highEstimate = (distance / 45) * 60 + 2; // 45 mph + high end average of 2 minute for cities ambulance dispatch
 
-  return null;
+        return (
+          <Marker key={index} position={position} icon={icon}>
+            <Popup>
+              <div>
+                <h2>{hospitalData.hospital.name}</h2>
+                <p>Address: {hospitalData.hospital.address}</p>
+                <p>
+                  Distance from your location:{" "}
+                  {hospitalData ? `${hospitalData.distance.toFixed(2)} miles` : "N/A"}
+                </p>
+                <p>
+                  Expected Ambulance Response Time:{" "}
+                  {hospitalData
+                    ? `${lowEstimate.toFixed(2)} to ${highEstimate.toFixed(2)} minutes`
+                    : "N/A"}
+                </p>
+                <p>
+                  Category:{" "}
+                  {hospitalData.point && hospitalData.point.category
+                    ? hospitalData.point.category
+                    : "N/A"}
+                </p>
+              </div>
+            </Popup>
+          </Marker>
+        );
+      })}
+    </>
+  );
 }
 
 function HospitalMap() {
@@ -55,8 +69,9 @@ function HospitalMap() {
   const [projectionGEO, setProjectionGEO] = useState(null);
   const [lineGEO, setLineGEO] = useState(null);
   const [hospitalNearestPoints, setHospitalNearestPoints] = useState([]);
-  const [userPosition, setUserPosition] = useState(null); 
-  const hurricaneID = 'al142024'; 
+  const [userPosition, setUserPosition] = useState(null);
+  const [closestHospitalIndex, setClosestHospitalIndex] = useState(null); 
+  const hurricaneID = 'al142024';
 
   const pointsList = [];
 
@@ -74,24 +89,29 @@ function HospitalMap() {
     );
   }, []);
 
-
+  // Fetch hurricane data
   useEffect(() => {
-    axios.get(`http://localhost:8000/api/hurricane/${hurricaneID}?type=pts`).then((response) => {
-      setPointsGEO(JSON.parse(response.data));
-    }).catch((error) => console.log(error));
+    axios.get(`http://localhost:8000/api/hurricane/${hurricaneID}?type=pts`)
+      .then((response) => {
+        setPointsGEO(JSON.parse(response.data));
+      })
+      .catch((error) => console.log(error));
 
-    axios.get(`http://localhost:8000/api/hurricane/${hurricaneID}?type=pgn`).then((response) => {
-      setProjectionGEO(JSON.parse(response.data));
-    }).catch((error) => console.log(error));
+    axios.get(`http://localhost:8000/api/hurricane/${hurricaneID}?type=pgn`)
+      .then((response) => {
+        setProjectionGEO(JSON.parse(response.data));
+      })
+      .catch((error) => console.log(error));
 
-    axios.get(`http://localhost:8000/api/hurricane/${hurricaneID}?type=lin`).then((response) => {
-      setLineGEO(JSON.parse(response.data));
-    }).catch((error) => console.log(error));
+    axios.get(`http://localhost:8000/api/hurricane/${hurricaneID}?type=lin`)
+      .then((response) => {
+        setLineGEO(JSON.parse(response.data));
+      })
+      .catch((error) => console.log(error));
   }, []);
 
-  // Calculate nearest hospital points
   useEffect(() => {
-    if (!pointsGEO) return;
+    if (!pointsGEO || !userPosition) return;
 
     for (let i = 0; i < pointsGEO.features.length; i++) {
       const point = {
@@ -104,34 +124,33 @@ function HospitalMap() {
     }
 
     const tempArray = [];
+    let closestDistance = Infinity;
+    let closestIndex = -1;
+
     hospitals.forEach((hospital, i) => {
       const hLat = hospital.latitude;
       const hLng = hospital.longitude;
-      let closestPoint = [Infinity, -1];
 
-      pointsList.forEach((point, index) => {
-        const distance = getDistanceFromLatLonInMiles(hLat, hLng, point.lat, point.lng);
-        if (distance < closestPoint[0]) {
-          closestPoint = [distance, index];
-        }
+      const distance = getDistanceFromLatLonInMiles(userPosition.lat, userPosition.lng, hLat, hLng);
+      tempArray.push({
+        hospital,
+        hospitalIndex: i,
+        point: pointsList[i],
+        distance,
       });
 
-      if (closestPoint[1] !== -1) {
-        tempArray.push({
-          hospital,
-          hospitalIndex: i,
-          point: pointsList[closestPoint[1]],
-          distance: closestPoint[0],
-        });
+      if (distance < closestDistance) {
+        closestDistance = distance;
+        closestIndex = i;
       }
     });
 
     setHospitalNearestPoints(tempArray);
-  }, [pointsGEO]);
+    setClosestHospitalIndex(closestIndex); 
+  }, [pointsGEO, userPosition]);
 
-  // User's custom icon
   const userIcon = L.icon({
-    iconUrl: userLocationIconPng, // Custom icon for user's location
+    iconUrl: userLocationIconPng, 
     iconSize: [30, 30],
     iconAnchor: [15, 15],
     popupAnchor: [0, -15],
@@ -147,16 +166,14 @@ function HospitalMap() {
         ext="png"
       />
 
-      <HospitalIcons hospitalNearestPoints={hospitalNearestPoints} />
+      <HospitalIcons hospitalNearestPoints={hospitalNearestPoints} closestHospitalIndex={closestHospitalIndex} />
 
-      
       {userPosition && (
         <Marker position={userPosition} icon={userIcon}>
           <Popup>Your Location</Popup>
         </Marker>
       )}
 
-     
       {pointsGEO && <GeoJSON data={pointsGEO} key={JSON.stringify(pointsGEO)} interactive={false} />}
       {projectionGEO && <GeoJSON data={projectionGEO} key={JSON.stringify(projectionGEO)} interactive={false} />}
       {lineGEO && <GeoJSON data={lineGEO} key={JSON.stringify(lineGEO)} interactive={false} />}
