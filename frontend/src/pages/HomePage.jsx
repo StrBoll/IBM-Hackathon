@@ -1,28 +1,26 @@
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { Box, Typography, Button, Card, CardContent, Grid, Sheet, Divider } from "@mui/joy";
-import { Storm as StormIcon } from '@mui/icons-material';
+import { Storm, AutoGraph, Map } from '@mui/icons-material';
 
 const HomePage = () => {
   const navigate = useNavigate();
 
-  const [hurricaneSelected, setHurricaneSelected] = useState(false);
-  const [selectedCounty, setSelectedCounty] = useState(null);
-
   const features = [
     {
-      icon: <StormIcon sx={{ fontSize: 40 }} />,
-      title: 'Real-Time Hurricane Tracking',
+      icon: <Storm sx={{ fontSize: 40 }} />,
+      title: 'Hurricane History',
       description:
-        'Monitor current hurricanes with live updates on their paths and intensities.',
+        'View past hurricanes with their paths and intensities.',
     },
     {
+      icon: <AutoGraph sx={{ fontSize: 40 }} />,
       title: 'Hospital Load Predictions',
       description:
         'Forecast hospital utilization to assist in resource planning and allocation.',
     },
     {
+      icon: <Map sx={{ fontSize: 40 }} />,
       title: 'Interactive Map Visualization',
       description:
         'Explore affected areas with detailed maps and interactive data overlays.',
@@ -66,17 +64,43 @@ const HomePage = () => {
             maxWidth: '800px',
           }}
         >
-          Predicting hospital utilization during hurricanes to improve government resource distribution in the most impacted regions.
+          Predicting hospital utilization during hurricanes to improve government resource distribution in the most impacted regions
         </Typography>
-        <Button
-          size="lg"
-          color="success"
-          variant="solid"
-          onClick={() => navigate('/map')}
-          sx={{ mt: 2 }}
-        >
-          Explore the Map
-        </Button>
+        <Grid container spacing={2}>
+          <Grid item>
+            <Button
+              size="lg"
+              color="success"
+              variant="solid"
+              onClick={() => navigate('/map')}
+              sx={{ mt: 2 }}
+            >
+              Explore the Map
+            </Button>
+          </Grid>
+          <Grid item>
+            <Button
+              size="lg"
+              color="success"
+              variant="solid"
+              onClick={() => navigate('/dashboard')}
+              sx={{ mt: 2 }}
+            >
+              View the Dashboard
+            </Button>
+          </Grid>
+          <Grid item>
+            <Button
+              size="lg"
+              color="success"
+              variant="solid"
+              onClick={() => navigate('/SOS')}
+              sx={{ mt: 2 }}
+            >
+              Response Times
+            </Button>
+          </Grid>
+        </Grid>
       </Sheet>
 
       <Box

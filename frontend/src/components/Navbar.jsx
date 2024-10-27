@@ -10,6 +10,7 @@ const Navbar = () => {
   const navItems = [
     { label: 'Home', path: '/' },
     { label: 'Map', path: '/map' },
+    { label: 'Dashboard', path: '/dashboard' },
   ];
 
   return (
@@ -26,7 +27,7 @@ const Navbar = () => {
     >
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
         <Typography level="h4" component="h1">
-          TBD
+          ATLAS
         </Typography>
       </Box>
 

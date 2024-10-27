@@ -5,6 +5,8 @@ import zipfile
 from io import BytesIO
 import geopandas as gpd
 import os
+from model import get_predictions
+from cnn_model import CNNModel
 
 app = FastAPI()
 
@@ -21,6 +23,23 @@ app.add_middleware(
 @app.get("/")
 def index():
     return {"Hello": "world!"}
+
+
+@app.post("/simulate")
+async def generate_simulation(request: Request):
+    # * given a category and speed
+    data = await request.json()
+    pass
+
+
+@app.get("/api/encounters")
+def get_encounter_predictions():
+    try:
+        predictions = get_predictions()
+        return {"predictions": predictions.tolist()}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
 
 @app.get("/api/hurricane/{storm_id}")
 async def get_hurricane_geojson(storm_id: str, type: str = "pgn"):
