@@ -3,7 +3,7 @@ import Navbar from './components/Navbar'
 import HomePage from './pages/HomePage';
 import Dashboard from './pages/Dashboard';
 import HospitalMap from './components/HospitalMap';
-import SOS from './pages/SOS'
+
 
 const App = () => {
   return (
@@ -14,7 +14,6 @@ const App = () => {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/map" element={<HospitalMap />} />
-        <Route path="/SOS" element={<SOS />} />
         <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
     </main>
