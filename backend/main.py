@@ -25,6 +25,13 @@ def index():
     return {"Hello": "world!"}
 
 
+@app.post("/simulate")
+async def generate_simulation(request: Request):
+    # * given a category and speed
+    data = await request.json()
+    pass
+
+
 @app.get("/api/encounters")
 def get_encounter_predictions():
     try:

@@ -1,28 +1,9 @@
 import { useState, useEffect } from "react";
-import { Box, Typography, Card, Grid, FormControl, FormLabel, Select, Option } from "@mui/joy"
+import { Box, Typography, Card } from "@mui/joy"
 import { LineChart } from "@mui/x-charts";
-
-/*
- * x-axis: time, week 0 => hurricane lands, 1-7 => after hurricane
- * y-axis: hospital encounters
- * 
- * using treat-and-release ed visits
- * all conditions, all ages, all proximities
- *
- * need pre-hurricane 4-week avg number of encounters
- */
-
-const customize = {
-  height: 300,
-  width: 650,
-  legend: { hidden: true },
-  margin: { top: 5 },
-}
+import SimulationControls from "../components/SimulationControls";
 
 const Dashboard = () => {
-  const [ageGroup, setAgeGroup] = useState('all ages')
-  const [condition, setCondition] = useState('all conditions')
-  const [proximity, setProximity] = useState('direct path')
   const [isLoading, setIsLoading] = useState(false);
 
   const [chartData, setChartData] = useState([]);
@@ -46,7 +27,7 @@ const Dashboard = () => {
         setChartData(data)
         setIsLoading(false);
       } catch (error) {
-        console.err(error)
+        console.log(error)
       }
     }
 
@@ -89,6 +70,20 @@ const Dashboard = () => {
     }
   }, [realChartData]);
 
+  const onSimulate = async ({ category, speed }) => {
+    fetch("http://localhost:8000/simulate", {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        category: category,
+        speed: speed,
+      })
+    })
+  }
+
   return (
     <Box sx={{ p: 4 }}>
       <Typography level="h2" sx={{ mb: 2, fontWeight: 'bold', textAlign: 'center' }}>
@@ -127,6 +122,10 @@ const Dashboard = () => {
           </Card>
         </>
       )}
+
+      <SimulationControls
+        onSimulate={onSimulate}
+      />
     </Box>
   );
 }

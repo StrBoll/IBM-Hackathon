@@ -119,6 +119,5 @@ def get_predictions():
 
     new_data = pd.read_csv('./new_data.csv')
     predictions = predict(model, new_data, preprocess_fn=preprocess_hcup_data)
-    print(predictions)
     return predictions
 
