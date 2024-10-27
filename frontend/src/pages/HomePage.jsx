@@ -79,6 +79,15 @@ const HomePage = () => {
         >
           Explore the Map
         </Button>
+        <Button
+          size="lg"
+          color="success"
+          variant="solid"
+          onClick={() => navigate('/SOS')}
+          sx={{ mt: 2 }}
+        >
+          Emergency Response
+        </Button>
       </Sheet>
 
       <Box
