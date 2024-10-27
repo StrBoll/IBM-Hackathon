@@ -1,4 +1,4 @@
-# AIDays2024
+# Atlas
 
 ## Running the project
 
