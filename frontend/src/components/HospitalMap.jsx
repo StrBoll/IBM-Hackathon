@@ -48,24 +48,7 @@ function HospitalIcons({hospitalNearestPoints}) {
     })
   }, [hospitalNearestPoints, map]);
 
-  return( null
-    // hospitals.map((hospital, index) => (
-    //   <Marker 
-    //     key={index}
-    //     position={[hospital.latitude, hospital.longitude]}
-    //     icon={hospitalIcon}
-    //   >
-    //     <Popup>
-    //       <div>
-    //         <h2>{hospital.name}</h2>
-    //         <p>Address: {hospital.address}</p>
-    //         <p>Distance to closest point: {hospitalNearestPoints[index] ? hospitalNearestPoints[index].distance.toFixed(2) : 'N/A'} miles</p>
-    //         <p>Category: {hospitalNearestPoints[index] ? hospitalNearestPoints[index].point.category : 'N/A'}</p>
-    //       </div>
-    //     </Popup>
-    //   </Marker>
-    // ))
-  )
+  return( null)
   
 }
 
