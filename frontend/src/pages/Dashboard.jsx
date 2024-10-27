@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react";
-import { Box, Typography, Card } from "@mui/joy"
+import React, { useState, useEffect } from "react";
+import { Box, Typography, Card, CircularProgress, Grid } from "@mui/joy"
 import { LineChart } from "@mui/x-charts";
-import SimulationControls from "../components/SimulationControls";
+
 
 const Dashboard = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -10,6 +10,9 @@ const Dashboard = () => {
   const [realChartData, setRealChartData] = useState([]);
   const [chartDataset, setChartDataset] = useState([]);
   const [countyList, setCountyList] = useState([]);
+
+  const [generatedText, setGeneratedText] = useState({});
+  const [processedItems, setProcessedItems] = useState([]);
 
   const population = 500000;
   const hurricane = 'Milton'
@@ -70,19 +73,63 @@ const Dashboard = () => {
     }
   }, [realChartData]);
 
-  const onSimulate = async ({ category, speed }) => {
-    fetch("http://localhost:8000/simulate", {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        category: category,
-        speed: speed,
-      })
-    })
-  }
+  useEffect(() => {
+    const getText = async () => {
+      setIsLoading(true);
+      try {
+        const response = await fetch('http://localhost:8000/api/generate');
+        if (!response.ok) {
+          throw new Error(`Error: ${response.statusText}`);
+        }
+        const data = await response.json();
+        setGeneratedText(data)
+        setIsLoading(false);
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    getText();
+  }, []);
+
+  useEffect(() => {
+    if (generatedText.info) {
+      const processText = (text) => {
+        // Split the text into introduction and numbered items
+        const regex = /(\d+\.\s)/;
+        const index = text.search(regex);
+
+        const intro = index !== -1 ? text.slice(0, index).trim() : '';
+        const itemsText = index !== -1 ? text.slice(index) : text;
+
+        // Split the itemsText into numbered items
+        const itemRegex = /(\d+\.\s[\s\S]*?)(?=(\d+\.\s)|$)/g;
+        const items = [];
+        let match;
+        while ((match = itemRegex.exec(itemsText)) !== null) {
+          items.push(match[1].trim());
+        }
+
+        // Combine intro and items
+        return intro ? [intro, ...items] : items;
+      };
+
+      const parseBoldText = (text) => {
+        const parts = text.split(/(\*\*.*?\*\*)/g);
+        return parts.map((part, index) => {
+          if (part.startsWith('**') && part.endsWith('**')) {
+            return <strong key={index}>{part.slice(2, -2)}</strong>;
+          } else {
+            return <React.Fragment key={index}>{part}</React.Fragment>;
+          }
+        });
+      };
+
+      const items = processText(generatedText.info);
+      const processed = items.map(item => parseBoldText(item));
+      setProcessedItems(processed);
+    }
+  }, [generatedText.info]);
+
 
   return (
     <Box sx={{ p: 4 }}>
@@ -92,40 +139,49 @@ const Dashboard = () => {
 
       {isLoading ? (
         <div style={{ textAlign: 'center', padding: '20px' }}>
-          <Typography level="h4">Loading data...</Typography>
+          <CircularProgress />
         </div>
       ) : (
-        <>
-          <Card variant="outlined" sx={{ p: 3, maxWidth: 800, margin: '0 auto' }}>
-            <LineChart
-              dataset={chartDataset}
-              xAxis={[
-                {
-                  id: 'Weeks',
-                  dataKey: 'week',
-                  valueFormatter: (value) => 'Week ' + value.toString(),
-                  min: 0,
-                  max: 7,
-                },
-              ]}
-              series={
-                countyList.map(county => ({
-                  id: county,
-                  label: county,
-                  dataKey: county,
-                  showMark: false,
-                }))}
-              width={800}
-              height={400}
-              margin={{ left: 70 }}
-            />
-          </Card>
-        </>
+        <Grid container direction={"column"} spacing={2}>
+          <Grid item>
+            <Card elevation={3} variant="outlined" sx={{ p: 3, maxWidth: 800, margin: '0 auto' }}>
+              <LineChart
+                dataset={chartDataset}
+                xAxis={[
+                  {
+                    id: 'Weeks',
+                    dataKey: 'week',
+                    valueFormatter: (value) => 'Week ' + value.toString(),
+                    min: 0,
+                    max: 7,
+                  },
+                ]}
+                series={
+                  countyList.map(county => ({
+                    id: county,
+                    label: county,
+                    dataKey: county,
+                    showMark: false,
+                  }))}
+                width={800}
+                height={400}
+                margin={{ left: 70 }}
+              />
+            </Card>
+          </Grid>
+          <Grid item sx={{ mt: 2 }}>
+            <Typography level="h2" sx={{ mb: 2, fontWeight: 'bold', textAlign: 'center' }}>
+              Insight From WatsonAIx
+            </Typography>
+            {processedItems.map((item, index) => (
+              <Typography key={index} component="p" sx={{ textAlign: 'left', mt: index !== 0 ? 2 : 0 }}>
+                {item}
+              </Typography>
+            ))}
+          </Grid>
+        </Grid>
       )}
 
-      <SimulationControls
-        onSimulate={onSimulate}
-      />
     </Box>
   );
 }

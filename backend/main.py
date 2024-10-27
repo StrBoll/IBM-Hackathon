@@ -7,6 +7,7 @@ import geopandas as gpd
 import os
 from model import get_predictions
 from cnn_model import CNNModel
+from watson import generate_response
 
 app = FastAPI()
 
@@ -25,11 +26,13 @@ def index():
     return {"Hello": "world!"}
 
 
-@app.post("/simulate")
-async def generate_simulation(request: Request):
-    # * given a category and speed
-    data = await request.json()
-    pass
+@app.get("/api/generate")
+async def generate_info():
+    try:
+        resp = generate_response()
+        return {"info": resp}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 
 @app.get("/api/encounters")
