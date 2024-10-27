@@ -6,7 +6,7 @@ import hospitals from '../assets/hospitals.json'
 import hospitalPng from '../assets/hospital.png'
 import { getDistanceFromLatLonInMiles } from '../helper/helper';
 
-function HospitalIcons(hospitalNearestPoints) {
+function HospitalIcons({hospitalNearestPoints}) {
 
   const hospitalIcon = L.icon({
     iconUrl: hospitalPng,
@@ -21,9 +21,12 @@ function HospitalIcons(hospitalNearestPoints) {
   useEffect(() => {
     console.log('hospitalNearestPointsFUNC:', hospitalNearestPoints);
 
-    if (hospitalNearestPoints.length < 0) return;
-
     hospitals.forEach((data, index) => {
+
+      if (index === 0) {
+        console.log('data:', data);
+        console.log('hospitalNearestPoints:', hospitalNearestPoints[0]);
+      }
       const position = latLng(data.latitude, data.longitude);
       const popupContent = (
         `<div>
@@ -122,6 +125,7 @@ function HospitalMap() {
       pointsList.push(point);
     }
     
+    const tempArray = [];
     for (let i = 0; i < hospitals.length; i++) {
       const hLat = hospitals[i].latitude;
       const hLong = hospitals[i].longitude;
@@ -139,25 +143,14 @@ function HospitalMap() {
         continue;
       }
 
-      if (closestPoint[0] > 250) { // discard hospitals that are 300 miles away from the closest point
-        console.log(`Closest point for ${hospitals[i].name} is too far away`);
-        continue;
-      }
-
-      // hospitalNearestPoints.push({
-      //   hospital: hospitals[i],
-      //   hospitalIndex: i,
-      //   point: pointsList[closestPoint[1]],
-      //   distance: closestPoint[0],
-      // });
-
-      setHospitalNearestPoints(prevState => [...prevState, {
+      tempArray.push({
         hospital: hospitals[i],
         hospitalIndex: i,
         point: pointsList[closestPoint[1]],
         distance: closestPoint[0],
-      }]);
+      });
     }
+    setHospitalNearestPoints(tempArray);
     console.log('hospitalNearestPoints:', hospitalNearestPoints);
   }, [pointsGEO]);
     
