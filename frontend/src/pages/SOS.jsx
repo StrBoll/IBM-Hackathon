@@ -2,6 +2,17 @@ import { useState, useEffect } from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import { Box, Typography } from '@mui/joy';
+import L from 'leaflet';
+
+
+const redIcon = new L.Icon({
+  iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
+  iconSize: [15, 25], 
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
+  shadowSize: [41, 41],
+});
 
 const LocationMarker = ({ setPosition, position }) => {
   useEffect(() => {
@@ -29,6 +40,24 @@ const LocationMarker = ({ setPosition, position }) => {
 
 const SOS = () => {
   const [position, setPosition] = useState(null);
+  const [hospitals, setHospitals] = useState([]);
+
+  useEffect(() => {
+    if (position) {
+      const fetchHospitals = async () => {
+        try {
+          const response = await fetch(
+            `https://overpass-api.de/api/interpreter?data=[out:json];node(around:5000,${position.lat},${position.lng})[amenity=hospital];out;`
+          );
+          const data = await response.json();
+          setHospitals(data.elements); 
+        } catch (error) {
+          console.error('Error fetching hospitals:', error);
+        }
+      };
+      fetchHospitals();
+    }
+  }, [position]);
 
   return (
     <Box sx={{ height: '100vh' }}>
@@ -53,12 +82,26 @@ const SOS = () => {
             maxZoom={20}
           />
           <LocationMarker setPosition={setPosition} position={position} />
+
+\          {hospitals.map((hospital, index) => (
+  <Marker
+    key={index}
+    position={[hospital.lat, hospital.lon]} 
+    icon={redIcon} 
+  >
+    <Popup>
+      <Typography>{hospital.tags && hospital.tags.name ? hospital.tags.name : 'Unknown Hospital'}</Typography>
+    </Popup>
+  </Marker>
+))}
+
         </MapContainer>
       </Box>
 
       {position && (
         <Box sx={{ textAlign: 'center', marginTop: 2 }}>
           <Typography>Your current location is: {position.lat}, {position.lng}</Typography>
+          
         </Box>
       )}
     </Box>
