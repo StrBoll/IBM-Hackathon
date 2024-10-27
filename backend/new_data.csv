@@ -1,0 +1,6 @@
+Hurricane Category,Hurricane Proximity to the County_Direct path,Hurricane Proximity to the County_Near path,Hurricane Proximity to the County_Remote/FEMA disaster,Hurricane Proximity to the County_Remote/not disaster,Population
+3,1.0,0.0,0.0,0.0,-1.2226090510313488
+3,0.0,1.0,0.0,0.0,0.8689610025320339
+3,0.0,0.0,1.0,0.0,-1.2226090510313488
+3,0.0,0.0,0.0,1.0,0.8689610025320339
+3,1.0,0.0,0.0,0.0,0.7072960969986299

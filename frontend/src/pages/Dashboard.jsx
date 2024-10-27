@@ -1,164 +1,188 @@
-import { useState, useEffect } from "react";
-import { Box, Typography, Card, Grid, FormControl, FormLabel, Select, Option } from "@mui/joy"
+import React, { useState, useEffect } from "react";
+import { Box, Typography, Card, CircularProgress, Grid } from "@mui/joy"
 import { LineChart } from "@mui/x-charts";
 
-/*
- * x-axis: time, week 0 => hurricane lands, 1-7 => after hurricane
- * y-axis: hospital encounters
- * 
- * using treat-and-release ed visits
- * all conditions, all ages, all proximities
- *
- * need pre-hurricane 4-week avg number of encounters
- */
-const customize = {
-  height: 300,
-  width: 650,
-  legend: { hidden: true },
-  margin: { top: 5 },
-}
-
 const Dashboard = () => {
-  const [ageGroup, setAgeGroup] = useState('all ages')
-  const [condition, setCondition] = useState('all conditions')
-  const [proximity, setProximity] = useState('direct path')
+  const [isLoading, setIsLoading] = useState(false);
 
   const [chartData, setChartData] = useState([]);
+  const [realChartData, setRealChartData] = useState([]);
+  const [chartDataset, setChartDataset] = useState([]);
+  const [countyList, setCountyList] = useState([]);
+
+  const [generatedText, setGeneratedText] = useState({});
+  const [processedItems, setProcessedItems] = useState([]);
+
+  const population = 959918;
+  const hurricane = 'Milton'
+  const counties = ['Alachua', 'Duval', 'Fake1', 'Fake2', 'Pinellas'];
 
   useEffect(() => {
     const fetchData = async () => {
+      setIsLoading(true);
       try {
-        const data = [
-          {
-            week: -1,
-            encounters: 40,
-          },
-          {
-            week: 0,
-            encounters: 50,
-          },
-          {
-            week: 1,
-            encounters: 70,
-          },
-          {
-            week: 2,
-            encounters: 95,
-          },
-          {
-            week: 3,
-            encounters: 80,
-          },
-          {
-            week: 4,
-            encounters: 35,
-          },
-          {
-            week: 5,
-            encounters: 50,
-          },
-          {
-            week: 6,
-            encounters: 45,
-          },
-          {
-            week: 7,
-            encounters: 40,
-          },
-        ]
-        setChartData(data);
+        const response = await fetch('http://localhost:8000/api/encounters');
+        if (!response.ok) {
+          throw new Error(`Error: ${response.statusText}`);
+        }
+        const data = await response.json();
+        setChartData(data)
+        setIsLoading(false);
       } catch (error) {
-        console.err(error)
+        console.log(error)
       }
     }
 
     fetchData();
   }, []);
 
+  useEffect(() => {
+    if (!isLoading && chartData && chartData.predictions) {
+      const encountersArray = chartData.predictions.flatMap((weekData, weekIndex) =>
+        weekData.map((prediction, dayIndex) => ({
+          name: hurricane,
+          county: counties[weekIndex],
+          week: dayIndex % 8,
+          encounters: Math.ceil((prediction / 10000) * population),
+        }))
+      );
+
+      setRealChartData(encountersArray);
+    }
+  }, [isLoading, chartData]);
+
+  useEffect(() => {
+    if (realChartData.length > 0) {
+      // Get unique weeks and counties
+      const weeks = [...new Set(realChartData.map(item => item.week))];
+      const counties = [...new Set(realChartData.map(item => item.county))];
+
+      // Reshape data
+      const reshapedData = weeks.map(week => {
+        const weekData = realChartData.filter(item => item.week === week);
+        const weekObj = { week };
+        weekData.forEach(item => {
+          weekObj[item.county] = item.encounters;
+        });
+        return weekObj;
+      });
+
+      setChartDataset(reshapedData);
+      setCountyList(counties);
+    }
+  }, [realChartData]);
+
+  useEffect(() => {
+    const getText = async () => {
+      setIsLoading(true);
+      try {
+        const response = await fetch('http://localhost:8000/api/generate');
+        if (!response.ok) {
+          throw new Error(`Error: ${response.statusText}`);
+        }
+        const data = await response.json();
+        setGeneratedText(data)
+        setIsLoading(false);
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    getText();
+  }, []);
+
+  useEffect(() => {
+    if (generatedText.info) {
+      const processText = (text) => {
+        // Split the text into introduction and numbered items
+        const regex = /(\d+\.\s)/;
+        const index = text.search(regex);
+
+        const intro = index !== -1 ? text.slice(0, index).trim() : '';
+        const itemsText = index !== -1 ? text.slice(index) : text;
+
+        // Split the itemsText into numbered items
+        const itemRegex = /(\d+\.\s[\s\S]*?)(?=(\d+\.\s)|$)/g;
+        const items = [];
+        let match;
+        while ((match = itemRegex.exec(itemsText)) !== null) {
+          items.push(match[1].trim());
+        }
+
+        // Combine intro and items
+        return intro ? [intro, ...items] : items;
+      };
+
+      const parseBoldText = (text) => {
+        const parts = text.split(/(\*\*.*?\*\*)/g);
+        return parts.map((part, index) => {
+          if (part.startsWith('**') && part.endsWith('**')) {
+            return <strong key={index}>{part.slice(2, -2)}</strong>;
+          } else {
+            return <React.Fragment key={index}>{part}</React.Fragment>;
+          }
+        });
+      };
+
+      const items = processText(generatedText.info);
+      const processed = items.map(item => parseBoldText(item));
+      setProcessedItems(processed);
+    }
+  }, [generatedText.info]);
+
+
   return (
     <Box sx={{ p: 4 }}>
-      <Typography level="h2" sx={{ mb: 2, fontWeight: 'bold' }}>
-        Hospital Encounters Dashboard
+      <Typography level="h2" sx={{ mb: 2, fontWeight: 'bold', textAlign: 'center' }}>
+        Predicted Hospital Encounters
       </Typography>
 
-      {/* Filters */}
-      <Grid container spacing={2} sx={{ mb: 4 }}>
-        {/* Age Filter */}
-        <Grid xs={12} md={4}>
-          <FormControl>
-            <FormLabel>Age Group</FormLabel>
-            <Select
-              value={ageGroup}
-              onChange={(e, value) => setAgeGroup(value)}
-            >
-              {['all ages', '0-17', '18-64', '65 and older'].map((age) => (
-                <Option key={age} value={age}>
-                  {age}
-                </Option>
+      {
+        isLoading ? (
+          <div style={{ textAlign: 'center', padding: '20px' }}>
+            <CircularProgress />
+          </div>
+        ) : (
+          <Grid container direction={"column"} spacing={2}>
+            <Grid item>
+              <Card elevation={3} variant="outlined" sx={{ p: 3, maxWidth: 800, margin: '0 auto' }}>
+                <LineChart
+                  dataset={chartDataset}
+                  xAxis={[
+                    {
+                      id: 'Weeks',
+                      dataKey: 'week',
+                      valueFormatter: (value) => 'Week ' + value.toString(),
+                      min: 0,
+                      max: 7,
+                    },
+                  ]}
+                  series={
+                    countyList.map(county => ({
+                      id: county,
+                      label: county,
+                      dataKey: county,
+                      showMark: false,
+                    }))}
+                  width={800}
+                  height={400}
+                  margin={{ left: 70 }}
+                />
+              </Card>
+            </Grid>
+            <Grid item sx={{ mt: 2 }}>
+              <Typography level="h2" sx={{ mb: 2, fontWeight: 'bold', textAlign: 'center' }}>
+                Insight From WatsonAIx
+              </Typography>
+              {processedItems.map((item, index) => (
+                <Typography key={index} component="p" sx={{ textAlign: 'left', mt: index !== 0 ? 2 : 0 }}>
+                  {item}
+                </Typography>
               ))}
-            </Select>
-          </FormControl>
-        </Grid>
-
-        {/* Condition Filter */}
-        <Grid xs={12} md={4}>
-          <FormControl>
-            <FormLabel>Condition</FormLabel>
-            <Select
-              value={condition}
-              onChange={(e, value) => setCondition(value)}
-            >
-              {['all conditions', 'injuries', 'circulatory', 'respiratory', 'infectious'].map((cond) => (
-                <Option key={cond} value={cond}>
-                  {cond}
-                </Option>
-              ))}
-            </Select>
-          </FormControl>
-        </Grid>
-
-        {/* Proximity Filter */}
-        <Grid xs={12} md={4}>
-          <FormControl>
-            <FormLabel>Proximity</FormLabel>
-            <Select
-              value={proximity}
-              onChange={(e, value) => setProximity(value)}
-            >
-              {['direct path', 'near path', 'remote'].map((prox) => (
-                <Option key={prox} value={prox}>
-                  {prox}
-                </Option>
-              ))}
-            </Select>
-          </FormControl>
-        </Grid>
-      </Grid>
-
-      {/* Chart */}
-      <Card variant="outlined" sx={{ p: 3 }}>
-        <LineChart
-          dataset={chartData}
-          xAxis={[
-            {
-              id: 'Weeks',
-              dataKey: 'week',
-              valueFormatter: (value) => 'Week ' + value.toString(),
-              min: -1,
-              max: 7,
-            },
-          ]}
-          series={[
-            {
-              label: 'Encounters per week',
-              dataKey: 'encounters',
-              showMark: false,
-            }
-          ]}
-          {...customize}
-        />
-      </Card>
-    </Box>
+            </Grid>
+          </Grid>
+        )
+      }
+    </Box >
   );
 }
 
