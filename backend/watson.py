@@ -26,7 +26,6 @@ def main():
     model = ModelInference(
         model_id="ibm/granite-13b-chat-v2",
         credentials=creds,
-        api_client=client,
         project_id=id,
         params=generate_params
     )
